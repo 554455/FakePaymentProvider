@@ -1,6 +1,6 @@
 package com.umaraliev.FakePaymentProvider.model;
 
-import lombok.Data;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -10,6 +10,8 @@ import java.util.UUID;
 
 @Entity
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class TransactionEntity {
     @Id
     private UUID transactionId;
@@ -39,4 +41,6 @@ public class TransactionEntity {
     private String createdBy;
     private String updatedBy;
     private String status;
+
+
 }
