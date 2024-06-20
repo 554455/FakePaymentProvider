@@ -13,11 +13,7 @@ public class CardService {
 
     private final CardRepository cardRepository;
 
-    public CardService(CardRepository cardRepository) {
-        this.cardRepository = cardRepository;
-    }
-
-    private Mono<CardEntity> getCard(String id) {
+    public Mono<CardEntity> getCard(Long id) {
         return cardRepository.findById(id);
     }
 
@@ -25,7 +21,12 @@ public class CardService {
         return cardRepository.findAll();
     }
 
-    private Mono<CardEntity> saveCard(CardEntity cardEntity) {
+    public Mono<CardEntity> saveCard(CardEntity cardEntity) {
         return cardRepository.save(cardEntity);
     }
+
+    public Flux<CardEntity> saveCard(Flux<CardEntity> cardEntity) {
+        return cardRepository.saveAll(cardEntity);
+    }
+
 }

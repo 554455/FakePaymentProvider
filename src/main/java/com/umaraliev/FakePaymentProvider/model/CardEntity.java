@@ -1,36 +1,68 @@
 package com.umaraliev.FakePaymentProvider.model;
 
-import lombok.Data;
 
-import javax.persistence.Entity;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.relational.core.mapping.Table;
 
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
 
-import javax.persistence.*;
-import java.util.Date;
-
-@Entity
-@Data
+@Table(name = "cards")
 public class CardEntity {
+
     @Id
-    private String cardNumber;
-
-    @ManyToOne
-    @JoinColumn(name = "account_id")
-    private AccountEntity account;
-
+    private Long cardNumber;
     private String expDate;
     private String cvv;
 
-    @CreationTimestamp
-    private Date createdAt;
+    private Long balance;
 
-    @UpdateTimestamp
-    private Date updatedAt;
+    private Long customerId;
 
-    private String createdBy;
-    private String updatedBy;
-    private String status;
+    public CardEntity(Long cardNumber, String expDate, String cvv, Long balance, Long customerId) {
+        this.cardNumber = cardNumber;
+        this.expDate = expDate;
+        this.cvv = cvv;
+        this.balance = balance;
+        this.customerId = customerId;
+    }
+
+    public Long getCardNumber() {
+        return cardNumber;
+    }
+
+    public void setCardNumber(Long cardNumber) {
+        this.cardNumber = cardNumber;
+    }
+
+    public String getExpDate() {
+        return expDate;
+    }
+
+    public void setExpDate(String expDate) {
+        this.expDate = expDate;
+    }
+
+    public String getCvv() {
+        return cvv;
+    }
+
+    public void setCvv(String cvv) {
+        this.cvv = cvv;
+    }
+
+    public Long getBalance() {
+        return balance;
+    }
+
+    public void setBalance(Long balance) {
+        this.balance = balance;
+    }
+
+    public Long getCustomerId() {
+        return customerId;
+    }
+
+    public void setCustomerId(Long customerId) {
+        this.customerId = customerId;
+    }
 }
 

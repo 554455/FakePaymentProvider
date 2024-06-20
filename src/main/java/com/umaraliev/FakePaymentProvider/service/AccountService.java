@@ -7,20 +7,14 @@ import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
-import javax.persistence.Id;
-
 @Service
 @RequiredArgsConstructor
 public class AccountService {
 
     private final AccountRepository accountRepository;
 
-    public AccountService(AccountRepository accountRepository) {
-        this.accountRepository = accountRepository;
-    }
 
-
-    private Mono<AccountEntity> getAccount(Id id) {
+    public Mono<AccountEntity> getAccount(Long id) {
         return accountRepository.findById(id);
     }
 
@@ -28,7 +22,7 @@ public class AccountService {
         return accountRepository.findAll();
     }
 
-    private Mono<AccountEntity> saveAccount(AccountEntity accountEntity) {
+    public Mono<AccountEntity> saveAccount(AccountEntity accountEntity) {
         return accountRepository.save(accountEntity);
     }
 }

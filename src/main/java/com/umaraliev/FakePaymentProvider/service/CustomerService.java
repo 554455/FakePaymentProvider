@@ -7,19 +7,13 @@ import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
-import java.util.UUID;
-
 @Service
 @RequiredArgsConstructor
 public class CustomerService {
 
     private final CustomerRepository customerRepository;
 
-    public CustomerService(CustomerRepository customerRepository) {
-        this.customerRepository = customerRepository;
-    }
-
-    private Mono<CustomerEntity> getCustomer(UUID id) {
+    private Mono<CustomerEntity> getCustomer(Long id) {
         return customerRepository.findById(id);
     }
 

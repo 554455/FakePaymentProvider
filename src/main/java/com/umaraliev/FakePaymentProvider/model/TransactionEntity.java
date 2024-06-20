@@ -1,46 +1,48 @@
 package com.umaraliev.FakePaymentProvider.model;
 
-import lombok.*;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.umaraliev.FakePaymentProvider.model.enums.TransactionType;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.relational.core.mapping.Table;
 
-import javax.persistence.*;
-        import java.util.Date;
-import java.util.UUID;
+import java.time.LocalDateTime;
 
-@Entity
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Table(name = "transactions")
 public class TransactionEntity {
-    @Id
-    private UUID transactionId;
 
-    private String paymentMethod;
+    @Id()
+    @JsonIgnore
+    private Long id;
+
+    private TransactionType transactionType;
     private Long amount;
     private String currency;
+
+
+
+    @JsonIgnore
+    private LocalDateTime createdAt;
+
+
+
+    @JsonIgnore
+    private LocalDateTime updatedAt;
+
+
+    //TOdo потом убрать
+    private String status = "IN_PROGRESS";
+
     private String language;
-    private String notificationUrl;
 
-    @ManyToOne
-    @JoinColumn(name = "card_number")
-    private CardEntity cardEntity;
+    private Long cardNumber;
 
-    @ManyToOne
-    @JoinColumn(name = "account_id")
-    private AccountEntity accountEntity;
-
-    private String transactionType;
-
-    @CreationTimestamp
-    private Date createdAt;
-
-    @UpdateTimestamp
-    private Date updatedAt;
-
-    private String createdBy;
-    private String updatedBy;
-    private String status;
-
+    private Long accountId;
 
 }

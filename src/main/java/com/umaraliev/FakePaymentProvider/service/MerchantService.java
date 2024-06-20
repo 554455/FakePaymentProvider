@@ -7,27 +7,24 @@ import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
-import java.util.UUID;
-
 @Service
 @RequiredArgsConstructor
 public class MerchantService {
 
     private final MerchantRepository merchantRepository;
 
-    public MerchantService(MerchantRepository marchantRepository) {
-        this.merchantRepository = marchantRepository;
-    }
 
-    private Mono<MerchantEntity> getMerchant(UUID id) {
+
+    public Mono<MerchantEntity> getMerchant(String id) {
         return merchantRepository.findById(id);
     }
 
-    private Flux<MerchantEntity> getMerchantList() {
+    public Flux<MerchantEntity> getMerchantList() {
         return merchantRepository.findAll();
     }
 
     private Mono<MerchantEntity> saveMerchant(MerchantEntity merchantEntity) {
         return merchantRepository.save(merchantEntity);
     }
+
 }

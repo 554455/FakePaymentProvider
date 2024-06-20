@@ -1,33 +1,23 @@
 package com.umaraliev.FakePaymentProvider.model;
 
 import lombok.Data;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.relational.core.mapping.Table;
 
-import javax.persistence.*;
-        import java.util.Date;
 
-@Entity
+
 @Data
+@Table(name = "accounts")
 public class AccountEntity {
+
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    private UserEntity userEntity;
-
     private String currency;
-    private Long amount;
 
-    @CreationTimestamp
-    private Date createdAt;
+    private Long balance;
 
-    @UpdateTimestamp
-    private Date updatedAt;
+    private String enabled;
 
-    private String createdBy;
-    private String updatedBy;
-    private String status;
+    private String merchantId;
 }
