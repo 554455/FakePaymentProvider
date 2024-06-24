@@ -7,5 +7,4 @@ public class RequestMerchantEntityDTO {
 
         private String merchantId;
         private String secretKey;
-        private RequestAccountEntityDTO requestAccountEntityDTO;
 }

@@ -1,7 +1,7 @@
 package com.umaraliev.FakePaymentProvider.service;
 
+import com.umaraliev.FakePaymentProvider.dto.RequestTransactionEntityDTO;
 import com.umaraliev.FakePaymentProvider.model.TransactionEntity;
-import com.umaraliev.FakePaymentProvider.model.enums.TransactionType;
 import com.umaraliev.FakePaymentProvider.repository.AccountRepository;
 import com.umaraliev.FakePaymentProvider.repository.CardRepository;
 import com.umaraliev.FakePaymentProvider.repository.TransactionRepository;
@@ -37,25 +37,22 @@ public class TransactionService {
         return transactionRepository.save(transactionEntity);
     }
 
-//    protected Flux<TransactionEntity> updateStatusTransaction(Flux<TransactionEntity> transactionEntity) {
-//        return transactionRepository.saveAll(transactionEntity);
-//    }
 
-    public Mono<TransactionEntity> updateStatusTransaction(TransactionEntity transactions) {
-        // ... код для обновления записей в базе данных
-        return transactionRepository.save(transactions); // Возвращаем поток обновленных транзакций
+    public Flux<TransactionEntity> updateStatusTransaction(Flux<TransactionEntity> transactions) {
+        return transactionRepository.saveAll(transactions); // Возвращаем поток обновленных транзакций
     }
 
 
-    public Mono<TransactionEntity> builder(Long id, TransactionType transactionType, Long amount, String currency, String language, Long cardNumber, Long accountId) {
+    public Mono<TransactionEntity> builder(RequestTransactionEntityDTO  requestTransactionEntityDTO) {
         TransactionEntity transactionEntity = new TransactionEntity();
-        transactionEntity.setTransactionType(transactionType);
-        transactionEntity.setAmount(amount);
-        transactionEntity.setCurrency(currency);
-        transactionEntity.setLanguage(language);
+        transactionEntity.setTransactionType(requestTransactionEntityDTO.getTransactionType());
+        transactionEntity.setAmount(requestTransactionEntityDTO.getAmount());
+        transactionEntity.setCurrency(requestTransactionEntityDTO.getCurrency());
+        transactionEntity.setLanguage(requestTransactionEntityDTO.getLanguage());
         transactionEntity.setCreatedAt(LocalDateTime.now());
-        transactionEntity.setCardNumber(cardNumber);
-        transactionEntity.setAccountId(accountId);
+        transactionEntity.setCardNumber(requestTransactionEntityDTO.getCardNumber());
+        transactionEntity.setAccountId(requestTransactionEntityDTO.getAccountId());
+        transactionEntity.setStatus("IN_PROGRESS");
         return transactionRepository.save(transactionEntity);
     }
 }

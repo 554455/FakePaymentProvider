@@ -25,19 +25,10 @@ public class TransactionEntity {
     private Long amount;
     private String currency;
 
-
-
-    @JsonIgnore
     private LocalDateTime createdAt;
-
-
-
-    @JsonIgnore
     private LocalDateTime updatedAt;
 
-
-    //TOdo потом убрать
-    private String status = "IN_PROGRESS";
+    private String status;
 
     private String language;
 

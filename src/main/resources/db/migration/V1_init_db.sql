@@ -1,91 +1,47 @@
-CREATE TABLE users (
-  user_id UUID PRIMARY KEY,
-  username VARCHAR(255) UNIQUE,
-  password_hash VARCHAR(256),
-  role VARCHAR(50),
-  created_at TIMESTAMP,
-  updated_at TIMESTAMP,
-  created_by VARCHAR(256),
-  updated_by VARCHAR(256),
-  status VARCHAR(256)
-);
-
-CREATE TABLE merchants (
-  merchant_id UUID PRIMARY KEY REFERENCES users(user_id),
-  secret_key VARCHAR(256),
-  created_at TIMESTAMP,
-  updated_at TIMESTAMP,
-  created_by VARCHAR(256),
-  updated_by VARCHAR(256),
-  status VARCHAR(256)
-);
-
-CREATE TABLE accounts (
-  id SERIAL PRIMARY KEY,
-  user_id UUID REFERENCES users(user_id),
-  currency VARCHAR(55),
-  amount BIGINT,
-  created_at TIMESTAMP,
-  updated_at TIMESTAMP,
-  created_by VARCHAR(256),
-  updated_by VARCHAR(256),
-  status VARCHAR(256)
-);
-
 CREATE TABLE cards (
-  card_number VARCHAR(16) PRIMARY KEY,
-  account_id BIGINT REFERENCES accounts(id),
-  exp_date VARCHAR(25),
-  cvv VARCHAR(3),
-  created_at TIMESTAMP,
-  updated_at TIMESTAMP,
-  created_by VARCHAR(256),
-  updated_by VARCHAR(256),
-  status VARCHAR(256)
+                       id BIGSERIAL PRIMARY KEY,
+                       cardNumber VARCHAR(255) NOT NULL,
+                       expDate VARCHAR(255) NOT NULL,
+                       cvv VARCHAR(255) NOT NULL
 );
 
 CREATE TABLE customers (
-  customer_id UUID PRIMARY KEY REFERENCES users(user_id),
-  card_number VARCHAR(16) REFERENCES cards(card_number),
-  first_name VARCHAR(256),
-  last_name VARCHAR(256),
-  country VARCHAR(256),
-  created_at TIMESTAMP,
-  updated_at TIMESTAMP,
-  created_by VARCHAR(256),
-  updated_by VARCHAR(256),
-  status VARCHAR(256)
+                           id BIGSERIAL PRIMARY KEY,
+                           firstName VARCHAR(255) NOT NULL,
+                           lastName VARCHAR(255) NOT NULL,
+                           country VARCHAR(255) NOT NULL,
+                           users_id BIGINT,
+                           FOREIGN KEY (users_id) REFERENCES users(id)
 );
+CREATE TABLE users (
+    id BIGSERIAL PRIMARY KEY
+);
+
+CREATE TABLE accounts (
+                          id BIGSERIAL PRIMARY KEY,
+                          currency VARCHAR(255) NOT NULL,
+                          balance NUMERIC(19, 2) NOT NULL,
+                          enabled VARCHAR(255) NOT NULL
+);
+
+CREATE TABLE merchants (
+                           merchantId VARCHAR(255) PRIMARY KEY,
+                           secretKey VARCHAR(255) NOT NULL,
+                           enabled VARCHAR(255) NOT NULL,
+                           users_id BIGINT,
+                           FOREIGN KEY (users_id) REFERENCES users(id)
+);
+
 
 CREATE TABLE transactions (
-  transaction_id UUID PRIMARY KEY,
-  payment_method VARCHAR(25),
-  amount BIGINT,
-  currency VARCHAR(25),
-  language VARCHAR(25),
-  notification_url VARCHAR(256),
-  card_number VARCHAR(16) REFERENCES cards(card_number),
-  account_id BIGINT REFERENCES accounts(id),
-  transaction_type VARCHAR(25),
-  created_at TIMESTAMP,
-  updated_at TIMESTAMP,
-  created_by VARCHAR(256),
-  updated_by VARCHAR(256),
-  status VARCHAR(256)
-);
-
-CREATE TABLE webhooks (
-  id SERIAL PRIMARY KEY,
-  transaction_id UUID REFERENCES transactions(transaction_id),
-  transaction_attempt BIGINT DEFAULT 0,
-  url_request VARCHAR(256),
-  body_request TEXT,
-  message VARCHAR(256),
-  body_response VARCHAR(256),
-  status_response VARCHAR(256),
-  created_at TIMESTAMP,
-  updated_at TIMESTAMP,
-  created_by VARCHAR(256),
-  updated_by VARCHAR(256),
-  status VARCHAR(256)
+                              id BIGSERIAL PRIMARY KEY,
+                              transactionType VARCHAR(255) NOT NULL,
+                              amount BIGINT NOT NULL,
+                              currency VARCHAR(255) NOT NULL,
+                              createdAt TIMESTAMP WITHOUT TIME ZONE NOT NULL,
+                              updatedAt TIMESTAMP WITHOUT TIME ZONE,
+                              status VARCHAR(255) NOT NULL,
+                              language VARCHAR(255),
+                              card_id BIGINT,
+                              account_id BIGINT
 );

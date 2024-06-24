@@ -19,5 +19,5 @@ public class AccountEntity {
 
     private String enabled;
 
-    private String merchantId;
+    private String userId;
 }
