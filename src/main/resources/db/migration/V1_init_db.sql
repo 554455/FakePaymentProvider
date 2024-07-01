@@ -1,8 +1,8 @@
 CREATE TABLE cards (
-                       id BIGSERIAL PRIMARY KEY,
-                       cardNumber VARCHAR(255) NOT NULL,
+                       cardNumber VARCHAR(255) PRIMARY KEY NOT NULL,
                        expDate VARCHAR(255) NOT NULL,
-                       cvv VARCHAR(255) NOT NULL
+                       cvv VARCHAR(255) NOT NULL,
+                       account_id bigint NOT NULL
 );
 
 CREATE TABLE customers (
@@ -35,13 +35,13 @@ CREATE TABLE merchants (
 
 CREATE TABLE transactions (
                               id BIGSERIAL PRIMARY KEY,
-                              transactionType VARCHAR(255) NOT NULL,
+                              transaction_type VARCHAR(255) NOT NULL,
                               amount BIGINT NOT NULL,
                               currency VARCHAR(255) NOT NULL,
-                              createdAt TIMESTAMP WITHOUT TIME ZONE NOT NULL,
-                              updatedAt TIMESTAMP WITHOUT TIME ZONE,
+                              created_at TIMESTAMP WITHOUT TIME ZONE NOT NULL,
+                              updated_at TIMESTAMP WITHOUT TIME ZONE,
                               status VARCHAR(255) NOT NULL,
                               language VARCHAR(255),
-                              card_id BIGINT,
+                              card_number BIGINT,
                               account_id BIGINT
 );

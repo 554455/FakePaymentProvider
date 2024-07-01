@@ -19,8 +19,6 @@ public class CardEntity {
     private String expDate;
     private String cvv;
 
-    private Long balance;
-
     private Long accountId;
 
 }

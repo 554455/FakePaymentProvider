@@ -4,6 +4,8 @@ import com.umaraliev.FakePaymentProvider.dto.TransactionEntityDTO;
 import com.umaraliev.FakePaymentProvider.model.TransactionEntity;
 import com.umaraliev.FakePaymentProvider.service.TransactionService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.ReactiveSecurityContextHolder;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
@@ -25,10 +27,15 @@ public class RestControllerPaymentPayOutV1 {
     }
 
     @PostMapping("/create")
-    public Mono<TransactionEntity> createTransaction(@Valid
-                                                     @RequestHeader("merchantId") String merchantId,
-                                                     @RequestHeader("secretKey") String secretKey,
-                                                     @RequestBody TransactionEntityDTO transactionEntityDTO) {
-        return transactionService.builder(transactionEntityDTO);
+    public Mono<TransactionEntity> createTransaction(@Valid @RequestBody TransactionEntityDTO transactionEntityDTO) {
+        return ReactiveSecurityContextHolder.getContext()
+                .flatMap(context -> {
+                    Authentication authentication = context.getAuthentication();
+                    if (authentication != null) {
+                        return transactionService.builder(transactionEntityDTO);
+                    } else {
+                        return Mono.error(new RuntimeException("Unauthorized"));
+                    }
+                });
     }
 }
